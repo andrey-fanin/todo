@@ -20,13 +20,20 @@ h2 .task-num {
     font-weight: 700;
     padding: 5px 10px;
 }
+button {
+    cursor: pointer;
+}
 
 .container {
     max-width: 800px;
     margin: 0 auto;
     padding: 0 15px;
 }
-
+.container__remove-btns {
+    height: 40px;
+    display: flex;
+    justify-content: space-between;
+}
 .header {
     background-color: #333;
     padding: 10px 0;
@@ -52,14 +59,15 @@ h2 .task-num {
     display: flex;
     justify-content: space-between;
 }
-
+.container .form.form--mob {
+    display: none;
+}
 .header .container .form input {
     width: calc(100% - 145px);
     height: 40px;
     text-indent: 10px;
     border: 1px solid #fff;
-    border-radius: 5px;
-    border-radius: 0;
+    border-radius: 0px;
     box-sizing: border-box;
     outline: none;
     transition: 0.2s border;
@@ -88,9 +96,8 @@ h2 .task-num {
 
 .task-list li {
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
-    height: 32px;
     line-height: 32px;
     margin-bottom: 10px;
     border-radius: 3px;
@@ -149,7 +156,7 @@ input[type="checkbox"]:checked + span::before{
     width: 16px;
     height: 16px;
     left:0;
-    top:calc(50% - 10px);
+    top:0;
     background-color: transparent;
     border-radius: 2px;
     border: 2px solid #4fc1de;
@@ -162,7 +169,7 @@ input[type="checkbox"]:checked + span::after{
     transition: all .2s ease;
     opacity: 1;
     left: 4px;
-    top: calc(50% - 6px);
+    top: 4px;
     background-color: #4fc1de;
 }
 input[type="checkbox"]:not(:checked) + span::before{
@@ -171,7 +178,7 @@ input[type="checkbox"]:not(:checked) + span::before{
     width: 16px;
     height: 16px;
     left:0;
-    top:calc(50% - 10px);
+    top:0;
     background-color: transparent;
     border-radius: 2px;
     border: 2px solid #5d575f;
@@ -184,6 +191,35 @@ input[type="checkbox"]:not(:checked) + span::after{
     transition: all .2s ease;
     opacity: 0;
     left: 4px;
-    top: calc(50% - 6px);
+    top: 0;
     background-color: #7d25a9;
+}
+
+@media (max-width: 768px) {
+    .header {
+        margin-bottom: 10px;
+    }
+    .header .container {
+        justify-content: center;
+    }
+    .header .container .form {
+        display: none;
+    }
+    .container .form {
+        display: flex;
+        justify-content: space-between;
+    }
+    .container .form.form--mob {
+        display: flex;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .container .form.form--mob textarea {
+        width: 100%;
+        border: 1px solid #12c0dd;
+        min-height: 40px;
+        resize: vertical;
+        padding: 10px;
+    }
 }
