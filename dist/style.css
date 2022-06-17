@@ -29,6 +29,10 @@ button {
     margin: 0 auto;
     padding: 0 15px;
 }
+
+.container.container--mob {
+    display: none;
+}
 .container__remove-btns {
     height: 40px;
     display: flex;
@@ -47,7 +51,6 @@ button {
 }
 
 .header .container .logo {
-    width: 100px;
     line-height: 50px;
     color: #ddd;
     font-size: 24px;
@@ -58,9 +61,6 @@ button {
     width: 60%;
     display: flex;
     justify-content: space-between;
-}
-.container .form.form--mob {
-    display: none;
 }
 .header .container .form input {
     width: calc(100% - 145px);
@@ -195,6 +195,60 @@ input[type="checkbox"]:not(:checked) + span::after{
     background-color: #7d25a9;
 }
 
+.todoFade-enter-from, .todoFade-leave-to, .completedFade-enter-from, .completedFade-leave-to {
+    transform: translateX(10px);
+    opacity: 0;
+}
+.todoFade-enter-to, .todoFade-leave-from, .completedFade-enter-to, .completedFade-leave-from  {
+    transform: unset;
+    opacity: 1;
+}
+.todoFade-enter-active, .completedFade-enter-active  {
+    transition: all .5s ease;
+}
+.todoFade-leave-active, .completedFade-leave-active  {
+    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.numberScale-enter-from {
+    transform: scale(.3);
+}
+.numberScale-enter-to {
+    transform: scale(1);
+}
+.numberScale-leave-from {
+    display: none;
+}
+.numberScale-enter-active {
+    transition: all .5s ease;
+}
+
+.rotateY-enter-from {
+    transform: rotateY(90deg);
+}
+.rotateY-enter-to {
+    transform: rotateY(0);
+}
+.rotateY-leave-from {
+    display: none;
+}
+.rotateY-enter-active {
+    transition: all .3s ease;
+}
+
+
+.smoothFade-enter-from {
+    opacity: 0;
+}
+.smoothFade-enter-to {
+    opacity: 1;
+}
+.smoothFade-leave-from {
+    opacity: 0;
+}
+.smoothFade-enter-active {
+    transition: all .3s ease;
+}
 @media (max-width: 768px) {
     .header {
         margin-bottom: 10px;
@@ -209,6 +263,10 @@ input[type="checkbox"]:not(:checked) + span::after{
         display: flex;
         justify-content: space-between;
     }
+    .container.container--mob {
+        display: block;
+        padding: 0;
+    }
     .container .form.form--mob {
         display: flex;
         width: 100%;
@@ -221,5 +279,20 @@ input[type="checkbox"]:not(:checked) + span::after{
         min-height: 40px;
         resize: vertical;
         padding: 10px;
+    }
+
+    .container .form.form--mob textarea ~ .btn {
+        font-size: 2rem;
+    }
+
+    .container .form.form--mob textarea:focus {
+        border-radius: unset;
+    }
+
+    .btn.btn--wide {
+        flex: 5;
+    }
+    .btn ~ .btn {
+        margin-left: 8px;
     }
 }

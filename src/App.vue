@@ -1,17 +1,27 @@
 <template>
   <div class="header">
     <div class="container">
-      <div class="logo">ToDo list</div>
+      <div class="logo">ToDo</div>
       <div class="form">
-        <input type="text" :placeholder="placeholder" v-model="handleInput" @keypress.enter="addTask">
+        <input type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask">
         <button class="btn" @click="addTask">Add a new task</button>
       </div>
     </div>
   </div>
   <div class="container">
-    <div class="form form--mob">
-      <textarea type="text" :placeholder="placeholder" v-model="handleInput" @keypress.enter="addTask"></textarea>
-      <button class="btn" @click="addTask">+</button>
+    <div class="container container--mob">
+      <transition name="rotateY">
+        <div class="form form--mob" v-if="isActive">
+          <textarea type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask"></textarea>
+          <button class="btn" @click="addTask">+</button>
+        </div>
+      </transition>
+      <div class="" style="margin-bottom: 8px;display: flex;align-items: center;">
+        <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'open' }}</button>
+        <transition name="smoothFade">
+          <button class="btn" v-if="isActive" @click="clearHandleInput">clear text</button>
+        </transition>
+      </div>
     </div>
     <div class="container__remove-btns">
       <div class="">
@@ -82,11 +92,13 @@
                 completedList: [],
                 id: 0,
                 placeholder: 'type some text...',
+                isActive: false,
+                handleInput: ''
             }
         },
         methods: {
             addTask() {
-                if (this.handleInput.trim() !== '') {
+                if (this.handleInput) {
                     this.todoList.push({
                         title: this.handleInput,
                         id: this.id += 1
@@ -113,56 +125,24 @@
             clearDone() {
                 this.completedList = []
             },
+            checkActive() {
+                this.isActive = !this.isActive
+            },
+            clearHandleInput() {
+                this.handleInput = ''
+            }
         },
         watch: {
-            id: function(val) {
-                if (val > 0) {
+            checkId: function(val) {
+                if (val) {
                     this.placeholder = ''
                 }
+            }
+        },
+        computed: {
+            checkId() {
+                return this.id > 0
             }
         }
     }
 </script>
-
-<style>
-  .todoFade-enter-from, .todoFade-leave-to, .completedFade-enter-from, .completedFade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-  }
-  .todoFade-enter-to, .todoFade-leave-from, .completedFade-enter-to, .completedFade-leave-from  {
-    transform: unset;
-    opacity: 1;
-  }
-  .todoFade-enter-active, .completedFade-enter-active  {
-    transition: all .5s ease;
-  }
-  .todoFade-leave-active, .completedFade-leave-active  {
-    transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-  }
-  .list-enter-from,
-  .list-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  .list-enter-to, .list-leave-from {
-    opacity: 1;
-  }
-  .list-enter-active,
-  .list-leave-active {
-    transition: all 1 ease;
-  }
-
-
-  .numberScale-enter-from {
-    transform: scale(.3);
-  }
-  .numberScale-enter-to {
-    transform: scale(1);
-  }
-  .numberScale-leave-from {
-    display: none;
-  }
-  .numberScale-enter-active {
-    transition: all .5s ease;
-  }
-</style>
