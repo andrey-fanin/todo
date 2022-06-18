@@ -97,9 +97,9 @@
     export default {
         data() {
             return {
-                todoList: this.getJSON()?.todoList ?? [],
-                doneList: this.getJSON()?.doneList ?? [],
-                id: this.getJSON().id || 0,
+                todoList: this.getJSON()?.todoList || [],
+                doneList: this.getJSON()?.doneList || [],
+                id: this.getJSON()?.id || 0,
                 placeholder: 'type some text...',
                 isActive: false,
                 handleInput: '',
