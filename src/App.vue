@@ -4,7 +4,7 @@
       <div class="logo">ToDo</div>
       <div class="form">
         <input type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask">
-        <button class="btn" @click="addTask">Add a new task</button>
+        <button class="btn" @click="addTask">Add new task</button>
       </div>
     </div>
   </div>
@@ -17,7 +17,7 @@
         </div>
       </transition>
       <div class="" style="margin-bottom: 8px;display: flex;align-items: center;">
-        <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'open' }}</button>
+        <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'add new task' }}</button>
         <transition name="smoothFade">
           <button class="btn" v-if="isActive" @click="clearHandleInput">clear text</button>
         </transition>
@@ -39,18 +39,18 @@
         </transition>
       </div>
     </div>
-    <TransitionGroup name="list">
-      <h2>
-        <span>To do</span>
-        <span class="task-num">
+    <!--<TransitionGroup name="list">-->
+    <h2>
+      <span>To do</span>
+      <span class="task-num">
         <transition name="numberScale">
             <div :key="todoList.length">
               {{ todoList.length }}
             </div>
         </transition>
           </span>
-      </h2>
-    </TransitionGroup>
+    </h2>
+    <!--</TransitionGroup>-->
     <ul class="task-list">
       <li v-for="(task, idx) in todoList" :key="task.id">
         <label>
@@ -60,6 +60,11 @@
         <button class="btn-remove" @click="removeItem(idx, 'active')">remove</button>
       </li>
     </ul>
+    <transition name="smoothFade">
+      <div class="doge--wrapper" style="position: fixed;top: 50%;right: 0;" v-if="isDoge" @click="checkDoge">
+        <img src="assets/doge.png" alt="super dog" title="puper dog">
+      </div>
+    </transition>
     <h2>
       <span>Done</span>
       <span class="task-num">
@@ -79,12 +84,18 @@
         <button class="btn-remove" @click="removeItem(idx, 'completed')">remove</button>
       </li>
     </ul>
+    <div class="advices__wrap" v-if="showAdvice">
+      <TransitionGroup name="smoothFade">
+        <div class="advices__wrap-emoji" v-html="emoji" :key="emoji"></div>
+        <p class="advices__wrap-text" style="font-family: space mono;" :key="advice">
+          {{ advice }}
+        </p>
+      </TransitionGroup>
+    </div>
   </div>
 </template>
 
 <script>
-    // import AnimatedNumber from './components/AnimatedNumber.vue'
-
     export default {
         data() {
             return {
@@ -93,7 +104,12 @@
                 id: 0,
                 placeholder: 'type some text...',
                 isActive: false,
-                handleInput: ''
+                handleInput: '',
+                URLAdvice: 'https://api.adviceslip.com/advice',
+                URLEmoji: 'https://emojihub.herokuapp.com/api/random/group_face_positive',
+                advice: '',
+                emoji: '',
+                isDoge: false
             }
         },
         methods: {
@@ -128,8 +144,33 @@
             checkActive() {
                 this.isActive = !this.isActive
             },
+            checkDoge() {
+                this.isDoge = !this.isDoge
+            },
             clearHandleInput() {
                 this.handleInput = ''
+            },
+            async getUrl(url) {
+                this.emoji = ''
+                this.advice = ''
+                let {data} = {}
+                const response = await fetch(url)
+
+                if (response.ok) {
+                    data = await response.json();
+                } else {
+                    alert("Ошибка HTTP: " + response.status);
+                }
+
+                if (!data) {
+                    throw new Error('Совет пуст!')
+                }
+
+                if (data?.slip) {
+                    this.advice = data.slip.advice
+                } else if (data?.htmlCode) {
+                    this.emoji = data.htmlCode[0]
+                }
             }
         },
         watch: {
@@ -137,11 +178,28 @@
                 if (val) {
                     this.placeholder = ''
                 }
+            },
+            showAdvice: function (val) {
+                if (val) {
+                    this.getUrl(this.URLEmoji)
+                    this.getUrl(this.URLAdvice)
+                }
+            },
+            getDoge: function (val) {
+                if (val) {
+                    this.isDoge = true
+                }
             }
         },
         computed: {
             checkId() {
                 return this.id > 0
+            },
+            getDoge() {
+                return this.id > 5
+            },
+            showAdvice() {
+                return !this.todoList.length && !this.completedList.length && this.checkId
             }
         }
     }

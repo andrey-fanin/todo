@@ -2,7 +2,9 @@ body {
     font-family: 'Ubuntu', sans-serif;
     font-weight: 300;
 }
-
+#app {
+    background: url("./assets/doge.png");
+}
 h2 {
     display: flex;
     align-items: center;
@@ -110,6 +112,16 @@ button {
 }
 .task-list {
     padding-left: 0;
+}
+
+.advices__wrap {
+    text-align: center;
+}
+.advices__wrap .advices__wrap-emoji {
+    font-size: 6rem;
+}
+.advices__wrap .advices__wrap-text {
+    font-size: 2rem;
 }
 
 input[type="checkbox"] + span {
@@ -247,7 +259,25 @@ input[type="checkbox"]:not(:checked) + span::after{
     opacity: 0;
 }
 .smoothFade-enter-active {
-    transition: all .3s ease;
+    transition: all 2s ease;
+}
+
+.list-move, /* apply transition to moving elements */
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.5s ease;
+}
+
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+/* ensure leaving items are taken out of layout flow so that moving
+   animations can be calculated correctly. */
+.list-leave-active {
+    position: absolute;
 }
 @media (max-width: 768px) {
     .header {
