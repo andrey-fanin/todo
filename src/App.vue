@@ -1,96 +1,96 @@
 <template>
-  <div class="header">
-    <div class="container">
-      <div class="logo">ToDo</div>
-      <div class="form">
-        <input type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask">
-        <button class="btn" @click="addTask">Add new task</button>
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="container container--mob">
-      <transition name="rotateY">
-        <div class="form form--mob" v-if="isActive">
-          <textarea type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask"></textarea>
-          <button class="btn" @click="addTask">+</button>
+    <div class="header">
+        <div class="container">
+            <div class="logo">ToDo</div>
+            <div class="form">
+                <input type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask">
+                <button class="btn" @click="addTask">Add new task</button>
+            </div>
         </div>
-      </transition>
-      <div class="" style="margin-bottom: 8px;display: flex;align-items: center;">
-        <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'add new task' }}</button>
-        <transition name="smoothFade">
-          <button class="btn btn--transparent" v-if="isActive" @click="clearHandleInput">clear text</button>
-        </transition>
-      </div>
     </div>
-    <div class="container__remove-btns">
-      <div class="">
-        <transition name="todoFade">
-          <div class="flex" v-if="todoList.length">
-            <button class="btn-remove" @click="clearTodo">clear todo</button>
-          </div>
-        </transition>
-      </div>
-      <div class="">
-        <transition name="completedFade">
-          <div class="flex" v-if="doneList.length">
-            <button class="btn-remove" @click="clearDone">clear done</button>
-          </div>
-        </transition>
-      </div>
-    </div>
-    <h2>
-      <span>To do</span>
-      <span class="task-num">
-        <transition name="numberScale">
-            <div :key="todoList.length">
-              {{ todoList.length }}
+    <div class="container">
+        <div class="container container--mob">
+            <transition name="rotateY">
+                <div class="form form--mob" v-if="isActive">
+                    <textarea type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask"></textarea>
+                    <button class="btn" @click="addTask">+</button>
+                </div>
+            </transition>
+            <div class="buttons__wrap">
+                <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'add new task' }}</button>
+                <transition name="smoothFade">
+                    <button class="btn btn--transparent" v-if="isActive" @click="clearHandleInput">clear text</button>
+                </transition>
+            </div>
+        </div>
+        <div class="buttons__wrap buttons__wrap--remove">
+            <div>
+                <transition name="fadeX">
+                    <div v-if="todoList.length">
+                        <button class="btn btn-remove" @click="clearTodo">clear todo</button>
+                    </div>
+                </transition>
+            </div>
+            <div>
+                <transition name="fadeX">
+                    <div v-if="doneList.length">
+                        <button class="btn btn-remove" @click="clearDone">clear done</button>
+                    </div>
+                </transition>
+            </div>
+        </div>
+        <div class="tasks-title__wrap">
+            <h2>To do</h2>
+            <span class="tasks-title__wrap-num" :class="{ active: getDoge }">
+                <transition name="numberScale">
+                    <div :key="todoList.length">
+                      {{ todoList.length }}
+                    </div>
+                </transition>
+            </span>
+        </div>
+        <ul class="task-list">
+            <li v-for="(task, idx) in todoList" :key="task.id">
+                <label>
+                    <input type="checkbox" @change="check(idx, 'active')">
+                    <div>{{ task.title }}</div>
+                </label>
+                <button class="btn btn-remove" @click="removeItem(idx, 'active')">remove</button>
+            </li>
+        </ul>
+        <transition name="jumpIn">
+            <div class="doge--wrapper" v-if="isDoge" @click="checkDoge">
+                <img src="./assets/doge.png" alt="super dog" title="puper dog">
             </div>
         </transition>
-          </span>
-    </h2>
-    <ul class="task-list">
-      <li v-for="(task, idx) in todoList" :key="task.id">
-        <label>
-          <input type="checkbox" @change="check(idx, 'active')">
-          <span>{{ task.title }}</span>
-        </label>
-        <button class="btn-remove" @click="removeItem(idx, 'active')">remove</button>
-      </li>
-    </ul>
-    <transition name="smoothFade">
-      <div class="doge--wrapper" v-if="isDoge" @click="checkDoge">
-        <img src="./assets/doge.png" alt="super dog" title="puper dog">
-      </div>
-    </transition>
-    <h2>
-      <span>Done</span>
-      <span class="task-num">
-      <transition name="numberScale">
-        <div :key="doneList.length">
-          {{ doneList.length }}
+        <div class="tasks-title__wrap">
+            <h2>Done</h2>
+            <span class="tasks-title__wrap-num">
+                <transition name="numberScale">
+                    <div :key="doneList.length">
+                      {{ doneList.length }}
+                    </div>
+                </transition>
+            </span>
         </div>
-      </transition>
-        </span>
-    </h2>
-    <ul class="task-list complete-list">
-      <li v-for="(task, idx) in doneList" :key="task.id">
-        <label>
-          <input type="checkbox" checked @change="check(idx, 'completed')">
-          <span>{{ task.title}}</span>
-        </label>
-        <button class="btn-remove" @click="removeItem(idx, 'completed')">remove</button>
-      </li>
-    </ul>
-    <div class="advices__wrap" v-if="showAdvice">
-      <TransitionGroup name="smoothFade">
-        <div class="advices__wrap-emoji" v-html="emoji" :key="emoji"></div>
-        <p class="advices__wrap-text" :key="advice">
-          {{ advice }}
-        </p>
-      </TransitionGroup>
+        <ul class="task-list task-list--done">
+            <li v-for="(task, idx) in doneList" :key="task.id">
+                <label>
+                    <input type="checkbox" checked @change="check(idx, 'completed')">
+                    <div>{{ task.title}}</div>
+                </label>
+                <button class="btn btn-remove" @click="removeItem(idx, 'completed')">remove</button>
+            </li>
+        </ul>
+        <div class="advices__wrap" v-if="showAdvice">
+            <TransitionGroup name="smoothFade">
+                <div class="advices__wrap-emoji" v-html="emoji" :key="emoji"></div>
+                <p class="advices__wrap-text" :key="advice">
+                    {{ advice }}
+                </p>
+            </TransitionGroup>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -160,7 +160,7 @@
                 if (response.ok) {
                     data = await response.json();
                 } else {
-                    alert("Ошибка HTTP: " + response.status);
+                    console.log("Блок советов: ошибка HTTP " + response.status);
                 }
 
                 if (!data) {
@@ -195,6 +195,12 @@
                     this.placeholder = ''
                 }
             },
+            checkLists: function (val) {
+                if (val) {
+                    this.id = 0
+                    console.log('checkLists works')
+                }
+            },
             showAdvice: function (val) {
                 if (val) {
                     this.getUrl(this.URLEmoji)
@@ -212,10 +218,13 @@
                 return this.id > 0
             },
             getDoge() {
-                return this.id > 5
+                return this.id > 4
+            },
+            checkLists() {
+              return !this.todoList.length && !this.doneList.length
             },
             showAdvice() {
-                return !this.todoList.length && !this.doneList.length && this.checkId
+                return this.checkLists && this.checkId
             },
         },
     }
