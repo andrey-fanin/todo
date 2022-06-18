@@ -6,18 +6,23 @@ h2 {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 20px;
-    margin: 25px 0;
+}
+.tasks-title__wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #bfbfbf;
 }
-
-h2 .task-num {
+.tasks-title__wrap-num {
     border-radius: 20px;
     border: 2px solid #2a2f36;
     color: #2a2f36;
     font-size: 14px;
     font-weight: 700;
     padding: 5px 10px;
+}
+.tasks-title__wrap-num.active {
+
 }
 button {
     cursor: pointer;
@@ -32,7 +37,7 @@ button {
 .container.container--mob {
     display: none;
 }
-.container__remove-btns {
+.buttons__wrap.buttons__wrap--remove {
     height: 40px;
     display: flex;
     justify-content: space-between;
@@ -53,7 +58,7 @@ button {
     line-height: 50px;
     color: #ddd;
     font-size: 24px;
-    cursor: pointer;
+    cursor: default;
 }
 
 .header .container .form {
@@ -92,7 +97,18 @@ button {
     background-color: #0dd6f8;
     border-color: #0dd6f8;
 }
+.btn-remove {
+    font-size: 12px;
+    border: 2px solid #2a2f36;
+    background-color: #333333;
+    color: #fff;
+    padding: 5px 10px;
+}
 
+.btn-remove:hover {
+    background-color: #535151;
+    border-color: #535151;
+}
 .task-list li {
     display: flex;
     align-items: flex-start;
@@ -103,7 +119,7 @@ button {
     background-color: #fff;
 }
 
-.task-list.complete-list li {
+.task-list.task-list--done li {
     border-left-color: #999;
     opacity: .5;
 }
@@ -123,28 +139,10 @@ button {
     font-family: space mono;
 }
 
-input[type="checkbox"] + span {
+input[type="checkbox"] + div {
     padding-left: 10px;
 }
 
-.btn-remove {
-    border: 1px solid #2a2f36;
-    font-size: 12px;
-    border: 2px solid #2a2f36;
-    background-color: #333333;
-    color: #fff;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 5px 10px;
-    font-size: 12px;
-    outline: none;
-    transition: 0.2s;
-}
-
-.btn-remove:hover {
-    background-color: #535151;
-    border-color: #535151;
-}
 
 input[type="checkbox"]:checked,
 input[type="checkbox"]:not(:checked){
@@ -155,24 +153,24 @@ input[type="checkbox"]:not(:checked){
     height: 20px;
     margin-top: 6px;
 }
-input[type="checkbox"]:checked + span,
-input[type="checkbox"]:not(:checked) + span{
+input[type="checkbox"]:checked + div,
+input[type="checkbox"]:not(:checked) + div{
     position: relative;
     padding-left: 35px;
     cursor:pointer;
 }
-input[type="checkbox"]:checked + span::before{
+input[type="checkbox"]:checked + div::before{
     content:'';
     position: absolute;
     width: 16px;
     height: 16px;
     left:0;
-    top:0;
+    top:6px;
     background-color: transparent;
     border-radius: 2px;
     border: 2px solid #4fc1de;
 }
-input[type="checkbox"]:checked + span::after{
+input[type="checkbox"]:checked + div::after{
     content:'';
     position: absolute;
     width: 12px;
@@ -180,21 +178,21 @@ input[type="checkbox"]:checked + span::after{
     transition: all .2s ease;
     opacity: 1;
     left: 4px;
-    top: 4px;
+    top: 10px;
     background-color: #4fc1de;
 }
-input[type="checkbox"]:not(:checked) + span::before{
+input[type="checkbox"]:not(:checked) + div::before{
     content:'';
     position: absolute;
     width: 16px;
     height: 16px;
     left:0;
-    top:0;
+    top:6px;
     background-color: transparent;
     border-radius: 2px;
     border: 2px solid #5d575f;
 }
-input[type="checkbox"]:not(:checked) + span::after{
+input[type="checkbox"]:not(:checked) + div::after{
     content:'';
     position: absolute;
     width: 12px;
@@ -206,18 +204,18 @@ input[type="checkbox"]:not(:checked) + span::after{
     background-color: #7d25a9;
 }
 
-.todoFade-enter-from, .todoFade-leave-to, .completedFade-enter-from, .completedFade-leave-to {
+.fadeX-enter-from, .fadeX-leave-to {
     transform: translateX(10px);
     opacity: 0;
 }
-.todoFade-enter-to, .todoFade-leave-from, .completedFade-enter-to, .completedFade-leave-from  {
+.fadeX-enter-to, .fadeX-leave-from {
     transform: unset;
     opacity: 1;
 }
-.todoFade-enter-active, .completedFade-enter-active  {
+.fadeX-enter-active {
     transition: all .5s ease;
 }
-.todoFade-leave-active, .completedFade-leave-active  {
+.fadeX-leave-active {
     transition: all .3s cubic-bezier(1.0, 0.5, 0.8, 1.0);
 }
 
@@ -261,23 +259,34 @@ input[type="checkbox"]:not(:checked) + span::after{
     transition: all 2s ease;
 }
 
-.list-move, /* apply transition to moving elements */
-.list-enter-active,
-.list-leave-active {
-    transition: all 0.5s ease;
+
+.jumpIn-enter-from, .jumpIn-leave-to {
+    transform: translate(100%, 100%);
+}
+.jumpIn-enter-to, .jumpIn-leave-from {
+    transform: translate(0, 0);
+}
+.jumpIn-enter-active {
+    transition: all .5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+.jumpIn-leave-active {
+    transition: all .5s cubic-bezier(0.895, 0.03, 0.685, 0.22);
 }
 
-.list-enter-from,
-.list-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-}
+/*.list-move,*/
+/*.list-enter-active,*/
+/*.list-leave-active {*/
+    /*transition: all 0.5s ease;*/
+/*}*/
 
-/* ensure leaving items are taken out of layout flow so that moving
-   animations can be calculated correctly. */
-.list-leave-active {
-    position: absolute;
-}
+/*.list-enter-from,*/
+/*.list-leave-to {*/
+    /*opacity: 0;*/
+    /*transform: translateX(30px);*/
+/*}*/
+/*.list-leave-active {*/
+    /*position: absolute;*/
+/*}*/
 
 .doge--wrapper {
     position: fixed;
@@ -314,6 +323,11 @@ input[type="checkbox"]:not(:checked) + span::after{
         display: flex;
         width: 100%;
         margin-bottom: 10px;
+    }
+    .buttons__wrap {
+        margin-bottom: 8px;
+        display: flex;
+        align-items: center;
     }
 
     .container .form.form--mob textarea {

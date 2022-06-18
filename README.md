@@ -1,5 +1,7 @@
 # todo
 
+## Demo: https://andrey-fanin.github.io/todo/
+
 ## Project setup
 ```
 npm install
