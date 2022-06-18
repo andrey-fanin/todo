@@ -19,7 +19,7 @@
       <div class="" style="margin-bottom: 8px;display: flex;align-items: center;">
         <button class="btn btn--wide" @click="checkActive">{{ isActive ? 'close' : 'add new task' }}</button>
         <transition name="smoothFade">
-          <button class="btn" v-if="isActive" @click="clearHandleInput">clear text</button>
+          <button class="btn btn--transparent" v-if="isActive" @click="clearHandleInput">clear text</button>
         </transition>
       </div>
     </div>
@@ -39,7 +39,6 @@
         </transition>
       </div>
     </div>
-    <!--<TransitionGroup name="list">-->
     <h2>
       <span>To do</span>
       <span class="task-num">
@@ -50,7 +49,6 @@
         </transition>
           </span>
     </h2>
-    <!--</TransitionGroup>-->
     <ul class="task-list">
       <li v-for="(task, idx) in todoList" :key="task.id">
         <label>
@@ -61,8 +59,8 @@
       </li>
     </ul>
     <transition name="smoothFade">
-      <div class="doge--wrapper" style="position: fixed;top: 50%;right: 0;" v-if="isDoge" @click="checkDoge">
-        <img src="assets/doge.png" alt="super dog" title="puper dog">
+      <div class="doge--wrapper" v-if="isDoge" @click="checkDoge">
+        <img src="./assets/doge.png" alt="super dog" title="puper dog">
       </div>
     </transition>
     <h2>
@@ -87,7 +85,7 @@
     <div class="advices__wrap" v-if="showAdvice">
       <TransitionGroup name="smoothFade">
         <div class="advices__wrap-emoji" v-html="emoji" :key="emoji"></div>
-        <p class="advices__wrap-text" style="font-family: space mono;" :key="advice">
+        <p class="advices__wrap-text" :key="advice">
           {{ advice }}
         </p>
       </TransitionGroup>
