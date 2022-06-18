@@ -33,7 +33,7 @@
       </div>
       <div class="">
         <transition name="completedFade">
-          <div class="flex" v-if="completedList.length">
+          <div class="flex" v-if="doneList.length">
             <button class="btn-remove" @click="clearDone">clear done</button>
           </div>
         </transition>
@@ -67,14 +67,14 @@
       <span>Done</span>
       <span class="task-num">
       <transition name="numberScale">
-        <div :key="completedList.length">
-          {{ completedList.length }}
+        <div :key="doneList.length">
+          {{ doneList.length }}
         </div>
       </transition>
         </span>
     </h2>
     <ul class="task-list complete-list">
-      <li v-for="(task, idx) in completedList" :key="task.id">
+      <li v-for="(task, idx) in doneList" :key="task.id">
         <label>
           <input type="checkbox" checked @change="check(idx, 'completed')">
           <span>{{ task.title}}</span>
@@ -97,20 +97,23 @@
     export default {
         data() {
             return {
-                todoList: [],
-                completedList: [],
+                todoList: this.getJSON().todoList || [],
+                doneList: this.getJSON().doneList || [],
                 id: 0,
                 placeholder: 'type some text...',
                 isActive: false,
                 handleInput: '',
                 URLAdvice: 'https://api.adviceslip.com/advice',
-                URLEmoji: 'https://emojihub.herokuapp.com/api/random/group_face_positive',
+                URLEmoji:  'https://emojihub.herokuapp.com/api/random/group_face_positive',
                 advice: '',
                 emoji: '',
                 isDoge: false
             }
         },
         methods: {
+            getJSON() {
+                return JSON.parse(localStorage.getItem('todoList'))
+            },
             addTask() {
                 if (this.handleInput) {
                     this.todoList.push({
@@ -123,21 +126,21 @@
             check(idx, type) {
                 if (type === 'active') {
                     const completeItem = this.todoList.splice(idx, 1)
-                    this.completedList.push(...completeItem)
+                    this.doneList.push(...completeItem)
                 } else {
-                    const notCompletedItem = this.completedList.splice(idx, 1);
+                    const notCompletedItem = this.doneList.splice(idx, 1);
                     this.todoList.push(...notCompletedItem)
                 }
             },
             removeItem(idx, type) {
-                const test = type === 'active' ? this.todoList : this.completedList;
+                const test = type === 'active' ? this.todoList : this.doneList;
                 test.splice(idx, 1);
             },
             clearTodo() {
                 this.todoList = []
             },
             clearDone() {
-                this.completedList = []
+                this.doneList = []
             },
             checkActive() {
                 this.isActive = !this.isActive
@@ -169,9 +172,23 @@
                 } else if (data?.htmlCode) {
                     this.emoji = data.htmlCode[0]
                 }
+            },
+            saveInLocalStorage() {
+                const lists = {}
+                lists.todoList = this.todoList
+                lists.doneList = this.doneList
+                localStorage.setItem('todoList', JSON.stringify(lists))
             }
         },
         watch: {
+            todoList: { handler() {
+                    this.saveInLocalStorage()
+                }, deep: true
+            },
+            doneList: { handler() {
+                    this.saveInLocalStorage()
+                }, deep: true
+            },
             checkId: function(val) {
                 if (val) {
                     this.placeholder = ''
@@ -197,8 +214,8 @@
                 return this.id > 5
             },
             showAdvice() {
-                return !this.todoList.length && !this.completedList.length && this.checkId
-            }
-        }
+                return !this.todoList.length && !this.doneList.length && this.checkId
+            },
+        },
     }
 </script>
