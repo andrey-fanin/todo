@@ -1,5 +1,5 @@
 <template>
-    <div class="header">
+    <header class="header">
         <div class="container">
             <div class="logo">ToDo</div>
             <div class="form">
@@ -7,8 +7,8 @@
                 <button class="btn" @click="addTask">Add new task</button>
             </div>
         </div>
-    </div>
-    <div class="container">
+    </header>
+    <div class="container container--main">
         <div class="container container--mob">
             <transition name="rotateY">
                 <div class="form form--mob" v-if="isActive">
@@ -60,7 +60,9 @@
         </ul>
         <transition name="jumpIn">
             <div class="doge--wrapper" v-if="isDoge" @click="checkDoge">
-                <img src="./assets/doge.png" alt="super dog" title="puper dog">
+                <div class="doge--wrapper__img">
+                    <img src="./assets/doge.png" alt="super dog" title="puper dog">
+                </div>
             </div>
         </transition>
         <div class="tasks-title__wrap">
@@ -91,6 +93,17 @@
             </TransitionGroup>
         </div>
     </div>
+    <footer class="footer">
+        <div class="container container--footer">
+            <div class="footer__gh">
+                <a href="https://github.com/andrey-fanin/todo" class="gh-link">
+                    <div class="gh-link__img">
+                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="">
+                    </div>
+                </a>
+            </div>
+        </div>
+    </footer>
 </template>
 
 <script>
@@ -198,7 +211,6 @@
             checkLists: function (val) {
                 if (val) {
                     this.id = 0
-                    console.log('checkLists works')
                 }
             },
             showAdvice: function (val) {
@@ -221,10 +233,10 @@
                 return this.id > 4
             },
             checkLists() {
-              return !this.todoList.length && !this.doneList.length
+              return this.showAdvice && this.checkId
             },
             showAdvice() {
-                return this.checkLists && this.checkId
+                return !this.todoList.length && !this.doneList.length
             },
         },
     }
