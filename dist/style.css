@@ -73,6 +73,7 @@ button {
     color: #ddd;
     font-size: 24px;
     cursor: default;
+    margin-right: 10px;
 }
 
 .header .container .form {
@@ -221,16 +222,9 @@ input[type="checkbox"]:not(:checked) + div::after{
     background-color: #7d25a9;
 }
 
-/*footer*/
+/*github logo*/
 
-.footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
-
-.footer__gh {
+.gh-logo {
     display: flex;
     justify-content: center;
 }

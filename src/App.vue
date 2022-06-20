@@ -2,6 +2,13 @@
     <header class="header">
         <div class="container">
             <div class="logo">ToDo</div>
+            <div class="gh-logo">
+                <a href="https://github.com/andrey-fanin/todo" class="gh-link">
+                    <div class="gh-link__img">
+                        <img src="./assets/gh-logo.png" alt="github octocat logo">
+                    </div>
+                </a>
+            </div>
             <div class="form">
                 <input type="text" :placeholder="placeholder" v-model.trim="handleInput" @keypress.enter="addTask">
                 <button class="btn" @click="addTask">Add new task</button>
@@ -95,13 +102,6 @@
     </div>
     <footer class="footer">
         <div class="container container--footer">
-            <div class="footer__gh">
-                <a href="https://github.com/andrey-fanin/todo" class="gh-link">
-                    <div class="gh-link__img">
-                        <img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" alt="">
-                    </div>
-                </a>
-            </div>
         </div>
     </footer>
 </template>
