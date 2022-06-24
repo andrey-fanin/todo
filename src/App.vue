@@ -211,6 +211,3 @@ footer.footer
         },
     }
 </script>
-Доброго времени суток!
-Ссылка на моё полное резюме на Гугл Диске:
-https://drive.google.com/file/d/1Vll2ELuf_-cuPQv0OFXKsSZC_YmAU18i/view?usp=sharing
