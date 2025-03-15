@@ -2,7 +2,9 @@
 
 ## Demo: https://andrey-fanin.github.io/todo/
 
-[![Watch the video](https://raw.githubusercontent.com/username/repository/branch/path/to/thumbnail.jpg)](https://andrey-fanin.github.io/cv/assets/todo.4d987a41.mp4)
+<video controls>
+  <source src="https://andrey-fanin.github.io/cv/assets/todo.4d987a41.mp4" type="video/mp4">
+</video>
 
 ## Описание
 
