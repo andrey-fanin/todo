@@ -2,7 +2,9 @@
 
 ## Demo: https://andrey-fanin.github.io/todo/
 
-https://andrey-fanin.github.io/cv/assets/todo.4d987a41.mp4
+<video width="320" height="240" controls>
+  <source src="https://andrey-fanin.github.io/cv/assets/todo.4d987a41.mp4" type="video/mp4">
+</video>
 
 ## Описание
 
