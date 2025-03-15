@@ -2,7 +2,7 @@
 
 ## Demo: https://andrey-fanin.github.io/todo/
 
-![Vue 3 Logo](https://vuejs.org/images/logo.png)
+https://andrey-fanin.github.io/cv/assets/todo.4d987a41.mp4
 
 ## Описание
 
